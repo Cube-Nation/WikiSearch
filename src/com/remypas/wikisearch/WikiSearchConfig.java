@@ -1,4 +1,4 @@
-package com.mkremins.wikisearch;
+package com.remypas.wikisearch;
 
 import java.util.HashMap;
 import java.util.Map;

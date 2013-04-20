@@ -1,4 +1,4 @@
-package com.mkremins.wikisearch;
+package com.remypas.wikisearch;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

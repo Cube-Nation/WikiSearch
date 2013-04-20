@@ -3,7 +3,7 @@ version: 1.0
 description: Search external wikis and other websites via in-game command
 author: Max Kreminski
 
-main: com.mkremins.wikisearch.WikiSearchPlugin
+main: com.remypas.wikisearch.WikiSearchPlugin
 
 commands:
   wikisearch:
