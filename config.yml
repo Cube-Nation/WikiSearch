@@ -1,0 +1,20 @@
+# bit.ly account details – used to shorten links to search results
+bitly-username: # get a bit.ly account: https://bitly.com/a/sign_up
+bitly-api-key:  # get an API key: https://bitly.com/a/your_api_key
+
+# format used to display search results in chat
+# %%SEARCHTERMS%% replaced by search terms
+# %%SEARCHVIA%% replaced by wiki from which search results were obtained
+# %%RESULTSURL%% replaced by bit.ly-shortened link to search results
+# formatting codes (&# style) allowed – see http://ess.khhq.net/mc/ for a list of acceptable formatting codes
+results-format: &8[&5&lWiki&r&dSearch&8] &fSearch results for "%%SEARCHTERMS%%": &d%%RESULTSURL%% &8(via &5%%SEARCHVIA%%&8)
+
+# sites that can be searched via the /wikisearch command
+# if no specific wiki is specified in the command, the 'default' wiki will be used
+# MediaWiki wikis (including Wikia sites) can be added by front page URL alone – see 'mcwiki'
+# to add a non-MediaWiki site, add %%SEARCHTERMS%% to that site's search URL where appropriate – see 'lmgtfy'
+wikis:
+  default: mcwiki
+  google:  http://www.google.com/search?q=%%SEARCHTERMS%%
+  lmgtfy:  http://lmgtfy.com/?q=%%SEARCHTERMS%%'
+  mcwiki:  http://www.minecraftwiki.net/wiki/Minecraft_Wiki

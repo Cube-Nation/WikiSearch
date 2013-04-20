@@ -1,0 +1,12 @@
+# Eclipse
+/.classpath
+/.project
+/.settings
+
+# OS X
+.DS_Store
+
+# build
+/bin
+/lib
+/*.jardesc

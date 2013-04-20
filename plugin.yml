@@ -1,0 +1,23 @@
+name: WikiSearch
+version: 1.0
+description: Search external wikis and other websites via in-game command
+author: Max Kreminski
+
+main: com.mkremins.wikisearch.WikiSearchPlugin
+
+commands:
+  wikisearch:
+    description: Searches for the specified search terms via the specified wiki.
+    usage: Usage: /<command> <search terms> [-bro] [-to:player] [-via:wiki]
+    aliases: [search, wiki, ws]
+    permission: wikisearch.sendsearchresultsto.self
+
+permissions:
+  wikisearch.searchvia.*:
+    description: May search via any connected knowledgebase
+  wikisearch.sendsearchresultsto.*:
+    description: May send search results to anyone
+    children:
+      wikisearch.sendsearchresultsto.globalchat: true
+      wikisearch.sendsearchresultsto.otherplayer: true
+      wikisearch.sendsearchresultsto.self: true
