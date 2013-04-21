@@ -11,17 +11,17 @@ public class SearchQuery implements Runnable {
 	
 	private CommandSender sender, recipient;
 	private Provider urlShortener;
-	private String knowledgebaseName, msgFormat, searchTerms, shortUrlFormat;
+	private String msgFormat, searchTerms, shortUrlFormat, wikiName;
 
 	public SearchQuery(CommandSender sender, CommandSender recipient, Provider urlShortener, 
-			String knowledgebaseName, String msgFormat, String searchTerms, String shortUrlFormat) {
+			String msgFormat, String searchTerms, String shortUrlFormat, String wikiName) {
 		this.sender = sender;
 		this.recipient = recipient;
 		this.urlShortener = urlShortener;
-		this.knowledgebaseName = knowledgebaseName;
 		this.msgFormat = msgFormat;
 		this.searchTerms = searchTerms;
 		this.shortUrlFormat = shortUrlFormat;
+		this.wikiName = wikiName;
 	}
 	
 	public void run() {
@@ -36,9 +36,9 @@ public class SearchQuery implements Runnable {
 		}
 		
 		String message = this.msgFormat;
-		message = message.replaceAll("%%KNOWLEDGEBASE%%", knowledgebaseName);
-		message = message.replaceAll("%%RESULTSURL%%", shortUrl);
 		message = message.replaceAll("%%SEARCHTERMS%%", searchTerms);
+		message = message.replaceAll("%%SEARCHVIA%%", wikiName);
+		message = message.replaceAll("%%RESULTSURL%%", shortUrl);
 		
 		if (recipient == null) { // send to global chat
 			if (sender.hasPermission("wikisearch.sendsearchresultsto.globalchat")) {
