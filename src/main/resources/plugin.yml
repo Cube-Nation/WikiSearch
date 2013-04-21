@@ -1,5 +1,5 @@
 name: ${project.name}
-version: ${project.build.version}
+version: ${project.version}
 description: ${project.description}
 author: Max Kreminski
 website: ${project.url}
@@ -9,7 +9,7 @@ main: com.remypas.wikisearch.WikiSearchPlugin
 commands:
   wikisearch:
     description: Searches for the specified search terms via the specified wiki.
-    usage: Usage: /<command> <search terms> [-bro] [-to:player] [-via:wiki]
+    usage: 'Usage: /<command> <search terms> [-bro] [-to:player] [-via:wiki]'
     aliases: [search, wiki, ws]
     permission: wikisearch.sendsearchresultsto.self
 
