@@ -35,7 +35,21 @@ public class WikiSearchConfig {
 			}
 			
 			else {
-				this.wikis.put(wikiNameLowcase, configFile.getString("wikis." + url));
+				url = configFile.getString("wikis." + url);
+				
+				if (url == null || !(url.startsWith("http://") || url.startsWith("https://"))) {
+					continue;
+				}
+				
+				else {
+					if (url.contains("%%SEARCHTERMS%%")) {
+						this.wikis.put(wikiNameLowcase, url);
+					}
+					
+					else {
+						this.wikis.put(wikiNameLowcase, url + WikiSearchConfig.MEDIAWIKI_URL_APPEND);
+					}
+				}
 			}
 		}
 		

@@ -11,27 +11,27 @@ public class SearchQuery implements Runnable {
 	
 	private CommandSender sender, recipient;
 	private Provider urlShortener;
-	private String msgFormat, searchTerms, shortUrlFormat, wikiName;
+	private String msgFormat, searchTerms, urlFormat, wikiName;
 
 	public SearchQuery(CommandSender sender, CommandSender recipient, Provider urlShortener, 
-			String msgFormat, String searchTerms, String shortUrlFormat, String wikiName) {
+			String msgFormat, String searchTerms, String urlFormat, String wikiName) {
 		this.sender = sender;
 		this.recipient = recipient;
 		this.urlShortener = urlShortener;
 		this.msgFormat = msgFormat;
 		this.searchTerms = searchTerms;
-		this.shortUrlFormat = shortUrlFormat;
+		this.urlFormat = urlFormat;
 		this.wikiName = wikiName;
 	}
 	
 	public void run() {
-		String searchUrl = this.shortUrlFormat.replaceAll("%%SEARCHTERMS%%", searchTerms);
+		String searchUrl = this.urlFormat.replaceAll("%%SEARCHTERMS%%", searchTerms);
 		String shortUrl;
 		
 		try {
 			shortUrl = this.urlShortener.call(Bitly.shorten(searchUrl)).getShortUrl();
 		} catch (BitlyException e) {
-			sender.sendMessage("Couldn't shorten search URL");
+			sender.sendMessage("Couldn't shorten search URL.");
 			return;
 		}
 		
@@ -61,7 +61,7 @@ public class SearchQuery implements Runnable {
 			} 
 			
 			else {
-				sender.sendMessage("You're not allowed to send search results to a specific player.");
+				sender.sendMessage("You're not allowed to send search results to another player.");
 			}
 		}
 	}

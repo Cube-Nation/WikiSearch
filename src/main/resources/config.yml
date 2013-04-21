@@ -12,7 +12,7 @@ results-format: '&8[&5&lWiki&r&dSearch&8] &fSearch results for %%SEARCHTERMS%%: 
 # sites that can be searched via the /wikisearch command
 # if no specific wiki is specified in the command, the default wiki will be used
 # MediaWiki wikis (including Wikia sites) can be added by front page URL alone – see mcwiki
-# to add a non-MediaWiki site, add %%SEARCHTERMS%% to that sites search URL where appropriate – see lmgtfy
+# to add a non-MediaWiki site, add %%SEARCHTERMS%% to that site's search URL where appropriate – see lmgtfy
 wikis:
   default: mcwiki
   google:  http://www.google.com/search?q=%%SEARCHTERMS%%
