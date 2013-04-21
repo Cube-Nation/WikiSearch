@@ -10,3 +10,4 @@
 /bin
 /lib
 /*.jardesc
+/target

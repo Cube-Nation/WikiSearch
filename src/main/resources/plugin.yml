@@ -1,7 +1,8 @@
-name: WikiSearch
-version: 1.0
-description: Search external wikis and other websites via in-game command
+name: ${project.name}
+version: ${project.build.version}
+description: ${project.description}
 author: Max Kreminski
+website: ${project.url}
 
 main: com.remypas.wikisearch.WikiSearchPlugin
 

@@ -85,7 +85,7 @@ public class SearchCommandExecutor implements CommandExecutor {
 		}
 		
 		else {
-			this.scheduler.runTaskAsynchronously(this.plugin, new SearchQuery(sender, recipient, this.urlShortener, 
+			this.scheduler.runTask(this.plugin, new SearchQuery(sender, recipient, this.urlShortener, 
 					wikiName, this.config.getResultsFormat(), searchTerms.trim(), this.config.getUrlFormat(wikiName)));
 		}
 				
