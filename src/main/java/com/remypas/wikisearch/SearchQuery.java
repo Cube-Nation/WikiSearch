@@ -1,68 +1,54 @@
 package com.remypas.wikisearch;
 
-import org.bukkit.Bukkit;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.rosaloves.bitlyj.Bitly;
 import com.rosaloves.bitlyj.Bitly.Provider;
 import com.rosaloves.bitlyj.BitlyException;
 
-public class SearchQuery implements Runnable {
+public class SearchQuery extends BukkitRunnable {
 	
-	private CommandSender sender, recipient;
+	private CommandSender sender;
+	private List<CommandSender> recipients;
+	private Plugin plugin;
 	private Provider urlShortener;
-	private String msgFormat, searchTerms, urlFormat, wikiName;
+	private String messageFormat, searchTerms, urlFormat, wikiName;
 
-	public SearchQuery(CommandSender sender, CommandSender recipient, Provider urlShortener, 
-			String msgFormat, String searchTerms, String urlFormat, String wikiName) {
+	public SearchQuery(CommandSender sender, List<CommandSender> recipients, 
+			Plugin plugin, Provider urlShortener, 
+			String messageFormat, String searchTerms, 
+			String urlFormat, String wikiName) {
 		this.sender = sender;
-		this.recipient = recipient;
+		this.recipients = recipients;
+		this.plugin = plugin;
 		this.urlShortener = urlShortener;
-		this.msgFormat = msgFormat;
+		this.messageFormat = messageFormat;
 		this.searchTerms = searchTerms;
 		this.urlFormat = urlFormat;
 		this.wikiName = wikiName;
 	}
 	
 	public void run() {
-		String searchUrl = this.urlFormat.replaceAll("%%SEARCHTERMS%%", searchTerms);
+		String message = this.messageFormat
+				.replaceAll("%%SEARCHTERMS%%", this.searchTerms)
+				.replaceAll("%%SEARCHVIA%%", this.wikiName);
+		
+		String searchUrl = this.urlFormat.replaceAll("%%SEARCHTERMS%%", this.searchTerms);
 		String shortUrl;
 		
 		try {
 			shortUrl = this.urlShortener.call(Bitly.shorten(searchUrl)).getShortUrl();
+			message = message.replaceAll("%%RESULTSURL%%", shortUrl);
 		} catch (BitlyException e) {
-			sender.sendMessage("Couldn't shorten search URL.");
-			return;
+			message = "Couldn't shorten search URL.";
+			this.recipients = new ArrayList<CommandSender>();
 		}
 		
-		String message = this.msgFormat;
-		message = message.replaceAll("%%SEARCHTERMS%%", searchTerms);
-		message = message.replaceAll("%%SEARCHVIA%%", wikiName);
-		message = message.replaceAll("%%RESULTSURL%%", shortUrl);
-		
-		if (recipient == null) { // send to global chat
-			if (sender.hasPermission("wikisearch.sendsearchresultsto.globalchat")) {
-				Bukkit.broadcastMessage(message);
-			}
-			
-			else {
-				sender.sendMessage("You're not allowed to broadcast search results globally.");
-			}
-		}
-		
-		else if (recipient.equals(sender)) { // send to self
-			recipient.sendMessage(message);
-		}
-			
-		else { // send to another player
-			if (sender.hasPermission("wikisearch.sendsearchresultsto.otherplayer")) {
-				sender.sendMessage("Sent search results to " + recipient.getName() + ".");
-				recipient.sendMessage(message);
-			} 
-			
-			else {
-				sender.sendMessage("You're not allowed to send search results to another player.");
-			}
-		}
+		new SearchResult(this.sender, this.recipients, message).runTask(this.plugin);
 	}
 }

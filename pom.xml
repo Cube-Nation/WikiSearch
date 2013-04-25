@@ -54,6 +54,15 @@
                     <include>config.yml</include>
                 </includes>
             </resource>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}</directory>
+                <includes>
+                    <include>LICENSE</include>
+                    <include>LICENSE-bitlyj</include>
+                    <include>NOTICE</include>
+                </includes>
+            </resource>
         </resources>
 
         <plugins>
