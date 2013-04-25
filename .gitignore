@@ -11,3 +11,8 @@
 /lib
 /*.jardesc
 /target
+
+# licensing
+LICENSE
+LICENSE-bitlyj
+NOTICE
