@@ -1,5 +1,6 @@
 package com.remypas.wikisearch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
@@ -24,6 +25,7 @@ public class SearchQuery extends BukkitRunnable {
 			String urlFormat, String wikiName) {
 		this.sender = sender;
 		this.recipients = recipients;
+		this.plugin = plugin;
 		this.urlShortener = urlShortener;
 		this.messageFormat = messageFormat;
 		this.searchTerms = searchTerms;
@@ -32,20 +34,20 @@ public class SearchQuery extends BukkitRunnable {
 	}
 	
 	public void run() {
-		String searchUrl = this.urlFormat.replaceAll("%%SEARCHTERMS%%", searchTerms);
+		String message = this.messageFormat
+				.replaceAll("%%SEARCHTERMS%%", this.searchTerms)
+				.replaceAll("%%SEARCHVIA%%", this.wikiName);
+		
+		String searchUrl = this.urlFormat.replaceAll("%%SEARCHTERMS%%", this.searchTerms);
 		String shortUrl;
 		
 		try {
 			shortUrl = this.urlShortener.call(Bitly.shorten(searchUrl)).getShortUrl();
+			message = message.replaceAll("%%RESULTSURL%%", shortUrl);
 		} catch (BitlyException e) {
-			sender.sendMessage("Couldn't shorten search URL.");
-			return;
+			message = "Couldn't shorten search URL.";
+			this.recipients = new ArrayList<CommandSender>();
 		}
-		
-		String message = this.messageFormat
-				.replaceAll("%%SEARCHTERMS%%", searchTerms)
-				.replaceAll("%%SEARCHVIA%%", wikiName)
-				.replaceAll("%%RESULTSURL%%", shortUrl);
 		
 		new SearchResult(this.sender, this.recipients, message).runTask(this.plugin);
 	}

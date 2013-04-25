@@ -39,7 +39,7 @@ public class SearchCommandExecutor implements CommandExecutor {
 			}
 			
 			else if (arg.equals("-bro")) {
-				if (!sender.hasPermission("wikisearch.sendresultsto.globalchat")) {
+				if (!sender.hasPermission("wikisearch.sendsearchresultsto.globalchat")) {
 					sender.sendMessage("You're not allowed to globally broadcast search results.");
 					return true;
 				}
@@ -48,7 +48,7 @@ public class SearchCommandExecutor implements CommandExecutor {
 			}
 			
 			else if (arg.startsWith("-to:")) {
-				if (!sender.hasPermission("wikisearch.sendresultsto.otherplayer")) {
+				if (!sender.hasPermission("wikisearch.sendsearchresultsto.otherplayer")) {
 					sender.sendMessage("You're not allowed to send search results to other players.");
 					return true;
 				}

@@ -14,8 +14,13 @@ commands:
     permission: wikisearch.sendsearchresultsto.self
 
 permissions:
+  wikisearch.*:
+    description: May make full use of all plugin features
+    children:
+      wikisearch.searchvia.*: true
+      wikisearch.sendsearchresultsto.*: true
   wikisearch.searchvia.*:
-    description: May search via any connected knowledgebase
+    description: May search via any available wiki
   wikisearch.sendsearchresultsto.*:
     description: May send search results to anyone
     children:
