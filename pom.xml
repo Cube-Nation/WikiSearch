@@ -58,9 +58,9 @@
                 <filtering>true</filtering>
                 <directory>${basedir}</directory>
                 <includes>
-                    <include>LICENSE</include>
-                    <include>LICENSE-bitlyj</include>
-                    <include>NOTICE</include>
+                    <include>LICENSE.txt</include>
+                    <include>LICENSE-bitlyj.txt</include>
+                    <include>NOTICE.txt</include>
                 </includes>
             </resource>
         </resources>
