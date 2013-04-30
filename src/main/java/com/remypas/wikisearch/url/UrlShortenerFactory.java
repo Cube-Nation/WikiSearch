@@ -10,7 +10,7 @@ public class UrlShortenerFactory {
 			throw new IllegalArgumentException("service name cannot be null");
 		}
 		
-		String serviceNameClean = serviceName.toLowerCase().replaceAll(".", "");
+		String serviceNameClean = serviceName.toLowerCase().replace(".", "");
 		
 		if (serviceNameClean.equals("isgd")) {
 			return new SimpleUrlShortener("http://is.gd/create.php?" +
@@ -25,7 +25,7 @@ public class UrlShortenerFactory {
 		}
 		
 		else {
-			throw new IllegalArgumentException("no service called " + serviceName);
+			throw new IllegalArgumentException("no service called " + serviceNameClean);
 		}
 	}
 }

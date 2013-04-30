@@ -20,20 +20,20 @@ public class SimpleUrlShortener implements UrlShortener {
 				if (credential == null) {
 					continue;
 				}
-				apiUrlFormatted = apiUrlFormatted.replaceAll("%%" + credentialName + "%%", credential);
+				apiUrlFormatted = apiUrlFormatted.replace("%%" + credentialName + "%%", credential);
 			}
 		}
 		
 		this.apiUrl = apiUrlFormatted;
 		
-		String testAuthentication = this.shortenUrl("http://remypas.com");
+		String testAuthentication = this.shortenUrl("http://dev.bukkit.org/server-mods/wikisearch");
 		if (testAuthentication == null) {
 			throw new IllegalArgumentException("invalid API credentials");
 		}
 	}
 
 	public String shortenUrl(final String longUrl) {
-		return this.readUrl(this.apiUrl.replaceAll("%%LONGURL%%", longUrl));
+		return this.readUrl(this.apiUrl.replace("%%LONG_URL%%", longUrl));
 	}
 	
 	private String readUrl(final String url) {
