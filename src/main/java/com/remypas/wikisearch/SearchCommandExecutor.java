@@ -9,15 +9,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.rosaloves.bitlyj.Bitly.Provider;
+import com.remypas.wikisearch.url.UrlShortener;
 
 public class SearchCommandExecutor implements CommandExecutor {
 	
-	private Provider urlShortener;
+	private UrlShortener urlShortener;
 	private WikiSearchConfig config;
 	private WikiSearchPlugin plugin;
 	
-	public SearchCommandExecutor(Provider urlShortener, WikiSearchConfig config, WikiSearchPlugin plugin) {
+	public SearchCommandExecutor(UrlShortener urlShortener, WikiSearchConfig config, WikiSearchPlugin plugin) {
 		this.urlShortener = urlShortener;
 		this.config = config;
 		this.plugin = plugin;

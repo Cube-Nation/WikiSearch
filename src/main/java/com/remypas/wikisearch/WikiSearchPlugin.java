@@ -1,12 +1,13 @@
 package com.remypas.wikisearch;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.rosaloves.bitlyj.Bitly;
-import com.rosaloves.bitlyj.Bitly.Provider;
-import com.rosaloves.bitlyj.BitlyException;
+import com.remypas.wikisearch.url.UrlShortener;
+import com.remypas.wikisearch.url.UrlShortenerFactory;
 
 public class WikiSearchPlugin extends JavaPlugin {
 
@@ -19,7 +20,7 @@ public class WikiSearchPlugin extends JavaPlugin {
 		boolean configInvalid = false;
 		String bitlyUser = config.getBitlyUsername();
 		String bitlyKey  = config.getBitlyApiKey();
-		Provider urlShortener = null;
+		UrlShortener urlShortener = null;
 		
 		if (bitlyUser == null) {
 			log.warning("Must specify bit.ly username in config.yml");
@@ -33,8 +34,11 @@ public class WikiSearchPlugin extends JavaPlugin {
 		
 		else {
 			try {
-				urlShortener = Bitly.as(bitlyUser, bitlyKey);
-			} catch (BitlyException e) {
+				Map<String, String> accountCredentials = new HashMap<String, String>();
+				accountCredentials.put("USER", bitlyUser);
+				accountCredentials.put("API_KEY", bitlyKey);
+				urlShortener = UrlShortenerFactory.createUrlShortener("bitly", accountCredentials);
+			} catch (Exception e) {
 				log.warning("Invalid bit.ly username/API key pair");
 				configInvalid = true;
 			}

@@ -7,20 +7,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.rosaloves.bitlyj.Bitly;
-import com.rosaloves.bitlyj.Bitly.Provider;
-import com.rosaloves.bitlyj.BitlyException;
+import com.remypas.wikisearch.url.UrlShortener;
 
 public class SearchQuery extends BukkitRunnable {
 	
 	private CommandSender sender;
 	private List<CommandSender> recipients;
 	private Plugin plugin;
-	private Provider urlShortener;
+	private UrlShortener urlShortener;
 	private String messageFormat, searchTerms, urlFormat, wikiName;
 
 	public SearchQuery(CommandSender sender, List<CommandSender> recipients, 
-			Plugin plugin, Provider urlShortener, 
+			Plugin plugin, UrlShortener urlShortener, 
 			String messageFormat, String searchTerms, 
 			String urlFormat, String wikiName) {
 		this.sender = sender;
@@ -42,9 +40,9 @@ public class SearchQuery extends BukkitRunnable {
 		String shortUrl;
 		
 		try {
-			shortUrl = this.urlShortener.call(Bitly.shorten(searchUrl)).getShortUrl();
+			shortUrl = this.urlShortener.shortenUrl(searchUrl);
 			message = message.replaceAll("%%RESULTSURL%%", shortUrl);
-		} catch (BitlyException e) {
+		} catch (Exception e) {
 			message = "Couldn't shorten search URL.";
 			this.recipients = new ArrayList<CommandSender>();
 		}
