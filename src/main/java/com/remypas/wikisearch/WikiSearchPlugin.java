@@ -1,6 +1,5 @@
 package com.remypas.wikisearch;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -16,32 +15,17 @@ public class WikiSearchPlugin extends JavaPlugin {
 		
 		this.saveDefaultConfig();
 		WikiSearchConfig config = new WikiSearchConfig(this.getConfig());
-		
 		boolean configInvalid = false;
-		String bitlyUser = config.getBitlyUsername();
-		String bitlyKey  = config.getBitlyApiKey();
+		
+		String serviceName = config.getUrlShortenerName();
+		Map<String, String> apiCredentials = config.getUrlShortenerApiCredentials();
 		UrlShortener urlShortener = null;
 		
-		if (bitlyUser == null) {
-			log.warning("Must specify bit.ly username in config.yml");
+		try {
+			urlShortener = UrlShortenerFactory.createUrlShortener(serviceName, apiCredentials);
+		} catch (Exception e) {
+			log.warning("Invalid " + serviceName + " API credentials");
 			configInvalid = true;
-		}
-		
-		else if (bitlyKey == null) {
-			log.warning("Must specify bit.ly API key in config.yml");
-			configInvalid = true;
-		}
-		
-		else {
-			try {
-				Map<String, String> accountCredentials = new HashMap<String, String>();
-				accountCredentials.put("USER", bitlyUser);
-				accountCredentials.put("API_KEY", bitlyKey);
-				urlShortener = UrlShortenerFactory.createUrlShortener("bitly", accountCredentials);
-			} catch (Exception e) {
-				log.warning("Invalid bit.ly username/API key pair");
-				configInvalid = true;
-			}
 		}
 		
 		if (configInvalid) {

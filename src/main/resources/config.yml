@@ -1,4 +1,7 @@
-# bit.ly account details – used to shorten links to search results
+# URL shortener used to shorten links to search results – currently supports bitly and isgd
+url-shortener: isgd
+
+# bit.ly account details – only necessary if you specified bit.ly as your URL shortener above
 bitly-username: # get a bit.ly account: https://bitly.com/a/sign_up
 bitly-api-key:  # get an API key: https://bitly.com/a/your_api_key
 

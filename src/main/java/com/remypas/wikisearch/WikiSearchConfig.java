@@ -9,66 +9,57 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class WikiSearchConfig {
 	
-	private Map<String, String> wikis;
-	private String bitlyKey, bitlyUser, resultsFormat;
-	private final static String MEDIAWIKI_URL_APPEND = "?search=%%SEARCHTERMS%%&go=Go";
+	private Map<String, String> urlShortenerApiCredentials, wikis;
+	private String resultsFormat, urlShortenerName;
+	private final static String mediawikiUrlAppend = "?search=%%SEARCHTERMS%%&go=Go";
 	
 	public WikiSearchConfig(FileConfiguration configFile) {
-		this.wikis = new HashMap<String, String>();
-		
-		for (String wikiName : configFile.getConfigurationSection("wikis").getKeys(false)) {
-			String wikiNameLowcase = wikiName.toLowerCase();
-			String url = configFile.getString("wikis." + wikiName);
-			
-			if (url == null) {
-				continue;
-			}
-			
-			else if (url.startsWith("http://") || url.startsWith("https://")) {
-				if (url.contains("%%SEARCHTERMS%%")) {
-					this.wikis.put(wikiNameLowcase, url);
-				}
-				
-				else {
-					this.wikis.put(wikiNameLowcase, url + WikiSearchConfig.MEDIAWIKI_URL_APPEND);
-				}
-			}
-			
-			else {
-				url = configFile.getString("wikis." + url);
-				
-				if (url == null || !(url.startsWith("http://") || url.startsWith("https://"))) {
-					continue;
-				}
-				
-				else {
-					if (url.contains("%%SEARCHTERMS%%")) {
-						this.wikis.put(wikiNameLowcase, url);
-					}
-					
-					else {
-						this.wikis.put(wikiNameLowcase, url + WikiSearchConfig.MEDIAWIKI_URL_APPEND);
-					}
-				}
-			}
-		}
-		
-		this.bitlyKey  = configFile.getString("bitly-api-key");
-		this.bitlyUser = configFile.getString("bitly-username");
-		
 		this.resultsFormat = ChatColor.translateAlternateColorCodes('&', configFile.getString("results-format"));
+		this.urlShortenerName = configFile.getString("url-shortener");
+		
+		this.urlShortenerApiCredentials = new HashMap<String, String>();
+		this.urlShortenerApiCredentials.put("API_KEY", configFile.getString(this.urlShortenerName + "-api-key"));
+		this.urlShortenerApiCredentials.put("USER", configFile.getString(this.urlShortenerName + "-username"));
+		
+		this.wikis = new HashMap<String, String>();
+		for (String wikiName : configFile.getConfigurationSection("wikis").getKeys(false)) {
+			String url = configFile.getString("wikis." + wikiName);
+			this.wikis.put(wikiName.toLowerCase(), url);
+		}
+	}
+	
+	public String getResultsFormat() {
+		return this.resultsFormat;
 	}
 	
 	public String getUrlFormat(String wikiName) {
-		return this.wikis.get(wikiName);
+		String url = this.wikis.get(wikiName);
+		
+		if (url == null) {
+			return null;
+		}
+		
+		else if (!(url.startsWith("http://") || url.startsWith("https://"))) {
+			return this.getUrlFormat(url);
+		}
+		
+		else {
+			if (url.contains("%%SEARCHTERMS%%")) {
+				return url;
+			}
+			
+			else {
+				return url + mediawikiUrlAppend;
+			}
+		}
 	}
 	
-	public String getBitlyApiKey() {
-		return this.bitlyKey;
+	public Map<String, String> getUrlShortenerApiCredentials() {
+		return this.urlShortenerApiCredentials;
 	}
 	
-	public String getBitlyUsername() {
-		return this.bitlyUser;
+	public String getUrlShortenerName() {
+		return this.urlShortenerName;
 	}
 	
 	public String listWikis() {
@@ -84,9 +75,5 @@ public class WikiSearchConfig {
 		}
 		
 		return list.substring(0, list.length() - 2);
-	}
-	
-	public String getResultsFormat() {
-		return this.resultsFormat;
 	}
 }
