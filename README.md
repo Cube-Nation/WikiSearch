@@ -10,7 +10,7 @@ We use Maven to handle dependencies.
 
 * Install [Maven 3](http://maven.apache.org/download.html)
 * Check out this repository
-* Run `mvn clean install`
+* Run `mvn clean package`
 
 License
 -------
