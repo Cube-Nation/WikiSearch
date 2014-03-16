@@ -17,30 +17,30 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.remypas.wikisearch.url.UrlShortener;
 
 public class SearchQuery extends BukkitRunnable {
-	
-	private CommandSender sender;
-	private List<CommandSender> recipients;
-	private Plugin plugin;
-	private UrlShortener urlShortener;
-	private String resultsFormat, searchTerms, urlFormat, wikiName, noDescString;
+    
+    private CommandSender sender;
+    private List<CommandSender> recipients;
+    private Plugin plugin;
+    private UrlShortener urlShortener;
+    private String resultsFormat, searchTerms, urlFormat, wikiName, noDescString;
 
-	public SearchQuery(CommandSender sender, List<CommandSender> recipients, 
-			Plugin plugin, UrlShortener urlShortener, 
-			String resultsFormat, String noDescString, String searchTerms, 
-			String urlFormat, String wikiName) {
-		this.sender = sender;
-		this.recipients = recipients;
-		this.plugin = plugin;
-		this.urlShortener = urlShortener;
-		this.resultsFormat = resultsFormat;
-		this.noDescString = noDescString;
-		this.searchTerms = searchTerms;
-		this.urlFormat = urlFormat;
-		this.wikiName = wikiName;
-	}
-	
-	public void run() {
-	    String descriptionText = this.noDescString;
+    public SearchQuery(CommandSender sender, List<CommandSender> recipients, 
+            Plugin plugin, UrlShortener urlShortener, 
+            String resultsFormat, String noDescString, String searchTerms, 
+            String urlFormat, String wikiName) {
+        this.sender = sender;
+        this.recipients = recipients;
+        this.plugin = plugin;
+        this.urlShortener = urlShortener;
+        this.resultsFormat = resultsFormat;
+        this.noDescString = noDescString;
+        this.searchTerms = searchTerms;
+        this.urlFormat = urlFormat;
+        this.wikiName = wikiName;
+    }
+    
+    public void run() {
+        String descriptionText = this.noDescString;
         String shortUrl;
         String searchUrl = this.urlFormat.replaceAll("%%SEARCHTERMS%%", this.searchTerms);
         
@@ -107,23 +107,23 @@ public class SearchQuery extends BukkitRunnable {
             e.printStackTrace();
         }
 
-	    
-		String message = this.resultsFormat
-				.replaceAll("%%SEARCHTERMS%%", this.searchTerms)
-				.replaceAll("%%SEARCHVIA%%", this.wikiName).replaceAll("%%RESULTTEXT%%", descriptionText);
-		
+        
+        String message = this.resultsFormat
+                .replaceAll("%%SEARCHTERMS%%", this.searchTerms)
+                .replaceAll("%%SEARCHVIA%%", this.wikiName).replaceAll("%%RESULTTEXT%%", descriptionText);
+        
 
-		
-		try {
-			shortUrl = this.urlShortener.shortenUrl(searchUrl);
-			message = message.replaceAll("%%RESULTSURL%%", shortUrl);
-		} catch (Exception e) {
-			message = "Couldn't shorten search URL.";
-			this.recipients = new ArrayList<CommandSender>();
-		}
-		
-		new SearchResult(this.sender, this.recipients, message).runTask(this.plugin);
-	}
+        
+        try {
+            shortUrl = this.urlShortener.shortenUrl(searchUrl);
+            message = message.replaceAll("%%RESULTSURL%%", shortUrl);
+        } catch (Exception e) {
+            message = "Couldn't shorten search URL.";
+            this.recipients = new ArrayList<CommandSender>();
+        }
+        
+        new SearchResult(this.sender, this.recipients, message).runTask(this.plugin);
+    }
 
     private String readURL(String descriptionAPI) {
         try {
