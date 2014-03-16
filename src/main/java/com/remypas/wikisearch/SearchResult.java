@@ -21,18 +21,18 @@ public class SearchResult extends BukkitRunnable {
 
 	public void run() {
 		if (this.recipients == null) {
-			Bukkit.broadcastMessage(this.message);
+		    for (String messageLine : this.message.split("\n")) Bukkit.broadcastMessage(messageLine);
 		}
 		
 		else if (this.recipients.isEmpty()) {
-			this.sender.sendMessage(this.message);
+            for (String messageLine : this.message.split("\n")) this.sender.sendMessage(messageLine);
 		}
 		
 		else {
 			String listRecipients = "";
 			
 			for (CommandSender recipient : this.recipients) {
-				recipient.sendMessage(this.message);
+	            for (String messageLine : this.message.split("\n")) recipient.sendMessage(messageLine);
 				listRecipients += recipient.getName() + ", ";
 			}
 			

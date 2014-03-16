@@ -10,12 +10,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class WikiSearchConfig {
 	
 	private Map<String, String> urlShortenerApiCredentials, wikis;
-	private String resultsFormat, urlShortenerName;
+	private String resultsFormat, urlShortenerName, noDescriptionText;
 	private final static String mediawikiUrlAppend = "?search=%%SEARCHTERMS%%&go=Go";
 	
 	public WikiSearchConfig(FileConfiguration configFile) {
 		this.resultsFormat = ChatColor.translateAlternateColorCodes('&', configFile.getString("results-format"));
 		this.urlShortenerName = configFile.getString("url-shortener");
+		this.noDescriptionText = configFile.getString("noDescriptionText", "No description found");
 		
 		this.urlShortenerApiCredentials = new HashMap<String, String>();
 		this.urlShortenerApiCredentials.put("API_KEY", configFile.getString(this.urlShortenerName + "-api-key"));
@@ -26,6 +27,10 @@ public class WikiSearchConfig {
 			String url = configFile.getString("wikis." + wikiName);
 			this.wikis.put(wikiName.toLowerCase(), url);
 		}
+	}
+	
+	public String getNoDescriptionText() {
+	    return this.noDescriptionText;
 	}
 	
 	public String getResultsFormat() {

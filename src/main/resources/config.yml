@@ -10,7 +10,10 @@ bitly-api-key:  # get an API key: https://bitly.com/a/your_api_key
 # %%SEARCHVIA%% replaced by wiki from which search results were obtained
 # %%RESULTSURL%% replaced by bit.ly-shortened link to search results
 # formatting codes (&# style) allowed – see http://ess.khhq.net/mc/ for a list of acceptable formatting codes
-results-format: '&8[&5&lWiki&r&dSearch&8] &fSearch results for %%SEARCHTERMS%%: &d%%RESULTSURL%% &8(via &5%%SEARCHVIA%%&8)'
+results-format: '&8[&5&lWiki&r&dSearch&8] &fSearch results for %%SEARCHTERMS%%: &d%%RESULTSURL%% &8(via &5%%SEARCHVIA%%&8) &b- %%RESULTTEXT%%'
+
+# output when no media wiki description could be found/parsed
+noDescriptionText: 'No description found'
 
 # sites that can be searched via the /wikisearch command
 # if no specific wiki is specified in the command, the default wiki will be used

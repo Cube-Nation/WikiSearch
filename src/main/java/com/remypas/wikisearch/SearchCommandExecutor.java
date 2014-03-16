@@ -105,7 +105,7 @@ public class SearchCommandExecutor implements CommandExecutor {
 			
 			SearchQuery query = new SearchQuery(sender, recipients,
 					this.plugin, this.urlShortener,
-					this.config.getResultsFormat(), searchTerms.trim(),
+					this.config.getResultsFormat(), this.config.getNoDescriptionText(), searchTerms.trim(),
 					this.config.getUrlFormat(wikiName), wikiName);
 			
 			query.runTaskAsynchronously(this.plugin);
